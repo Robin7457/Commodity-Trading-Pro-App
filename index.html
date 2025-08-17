@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommodityTrader Pro - कमोडिटी ट्रेडर प्रो</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container flex justify-between items-center">
+            <div class="logo">
+                <h1 class="app-title">
+                    <span data-en="CommodityTrader Pro" data-hi="कमोडिटी ट्रेडर प्रो">CommodityTrader Pro</span>
+                </h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn--secondary theme-toggle" id="themeToggle">🌙</button>
+                <button class="btn btn--primary language-toggle" id="languageToggle">हि</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-list">
+                <button class="nav-item active" data-section="dashboard" data-en="Dashboard" data-hi="डैशबोर्ड">Dashboard</button>
+                <button class="nav-item" data-section="signals" data-en="Signals" data-hi="सिग्नल">Signals</button>
+                <button class="nav-item" data-section="risk" data-en="Risk Calculator" data-hi="जोखिम कैलकुलेटर">Risk Calculator</button>
+                <button class="nav-item" data-section="education" data-en="Education" data-hi="शिक्षा">Education</button>
+                <button class="nav-item" data-section="backtest" data-en="Backtest" data-hi="बैकटेस्ट">Backtest</button>
+                <button class="nav-item" data-section="journal" data-en="Journal" data-hi="जर्नल">Journal</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2 data-en="Today's Market Overview" data-hi="आज का बाजार अवलोकन">Today's Market Overview</h2>
+                    <div class="date-time" id="currentDateTime"></div>
+                </div>
+
+                <!-- Risk Widget -->
+                <div class="risk-widget card">
+                    <div class="card__body">
+                        <h3 data-en="Portfolio Risk Status" data-hi="पोर्टफोलियो जोखिम स्थिति">Portfolio Risk Status</h3>
+                        <div class="risk-gauge">
+                            <div class="risk-meter">
+                                <div class="risk-fill" style="width: 35%"></div>
+                            </div>
+                            <div class="risk-info">
+                                <span class="risk-percentage">35%</span>
+                                <span class="risk-label" data-en="Portfolio Heat" data-hi="पोर्टफोलियो हीट">Portfolio Heat</span>
+                            </div>
+                        </div>
+                        <div class="risk-details">
+                            <div class="risk-stat">
+                                <span class="label" data-en="Daily Loss Limit:" data-hi="दैनिक हानि सीमा:">Daily Loss Limit:</span>
+                                <span class="value">₹25,000</span>
+                            </div>
+                            <div class="risk-stat">
+                                <span class="label" data-en="Used Today:" data-hi="आज उपयोग:">Used Today:</span>
+                                <span class="value">₹8,750</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Signals -->
+                <div class="top-signals">
+                    <h3 data-en="Top Trading Opportunities" data-hi="शीर्ष ट्रेडिंग अवसर">Top Trading Opportunities</h3>
+                    <div class="signal-grid" id="topSignals"></div>
+                </div>
+
+                <!-- Market Heatmap -->
+                <div class="heatmap-section">
+                    <h3 data-en="Market Heatmap" data-hi="मार्केट हीटमैप">Market Heatmap</h3>
+                    <div class="heatmap" id="marketHeatmap"></div>
+                </div>
+            </section>
+
+            <!-- Signals Section -->
+            <section id="signals" class="section">
+                <div class="section-header">
+                    <h2 data-en="Trading Signals" data-hi="ट्रेडिंग सिग्नल">Trading Signals</h2>
+                    <div class="filters">
+                        <select class="form-control" id="exchangeFilter">
+                            <option value="all" data-en="All Exchanges" data-hi="सभी एक्सचेंज">All Exchanges</option>
+                            <option value="mcx">MCX</option>
+                            <option value="ncdex">NCDEX</option>
+                        </select>
+                        <select class="form-control" id="sectorFilter">
+                            <option value="all" data-en="All Sectors" data-hi="सभी सेक्टर">All Sectors</option>
+                            <option value="precious_metals" data-en="Precious Metals" data-hi="कीमती धातु">Precious Metals</option>
+                            <option value="base_metals" data-en="Base Metals" data-hi="बेस मेटल">Base Metals</option>
+                            <option value="energy" data-en="Energy" data-hi="ऊर्जा">Energy</option>
+                            <option value="cereals" data-en="Cereals" data-hi="अनाज">Cereals</option>
+                            <option value="pulses" data-en="Pulses" data-hi="दाल">Pulses</option>
+                            <option value="oilseeds" data-en="Oilseeds" data-hi="तिलहन">Oilseeds</option>
+                            <option value="spices" data-en="Spices" data-hi="मसाले">Spices</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="signals-container" id="allSignals"></div>
+            </section>
+
+            <!-- Risk Calculator Section -->
+            <section id="risk" class="section">
+                <div class="section-header">
+                    <h2 data-en="Risk Calculator" data-hi="जोखिम कैलकुलेटर">Risk Calculator</h2>
+                </div>
+                <div class="risk-calculator card">
+                    <div class="card__body">
+                        <div class="calculator-inputs">
+                            <div class="form-group">
+                                <label class="form-label" data-en="Account Size (₹)" data-hi="खाता आकार (₹)">Account Size (₹)</label>
+                                <input type="number" class="form-control" id="accountSize" value="500000">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-en="Risk Per Trade (%)" data-hi="प्रति ट्रेड जोखिम (%)">Risk Per Trade (%)</label>
+                                <input type="number" class="form-control" id="riskPercent" value="2" min="0.5" max="10" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-en="Entry Price" data-hi="एंट्री प्राइस">Entry Price</label>
+                                <input type="number" class="form-control" id="entryPrice" value="76450">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-en="Stop Loss" data-hi="स्टॉप लॉस">Stop Loss</label>
+                                <input type="number" class="form-control" id="stopLoss" value="75560">
+                            </div>
+                        </div>
+                        <div class="calculator-results">
+                            <div class="result-item">
+                                <span class="label" data-en="Position Size:" data-hi="पोजीशन साइज:">Position Size:</span>
+                                <span class="value" id="positionSize">--</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="label" data-en="Risk Amount:" data-hi="जोखिम राशि:">Risk Amount:</span>
+                                <span class="value" id="riskAmount">--</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="label" data-en="Total Cost:" data-hi="कुल लागत:">Total Cost:</span>
+                                <span class="value" id="totalCost">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section id="education" class="section">
+                <div class="section-header">
+                    <h2 data-en="Education Center" data-hi="शिक्षा केंद्र">Education Center</h2>
+                </div>
+                <div class="education-tabs">
+                    <button class="tab-btn active" data-tab="basics" data-en="Trading Basics" data-hi="व्यापार की बुनियादी बातें">Trading Basics</button>
+                    <button class="tab-btn" data-tab="risk-mgmt" data-en="Risk Management" data-hi="जोखिम प्रबंधन">Risk Management</button>
+                    <button class="tab-btn" data-tab="seasonal" data-en="Seasonal Patterns" data-hi="मौसमी पैटर्न">Seasonal Patterns</button>
+                    <button class="tab-btn" data-tab="weather" data-en="Weather Impact" data-hi="मौसम का प्रभाव">Weather Impact</button>
+                </div>
+                <div class="education-content" id="educationContent"></div>
+            </section>
+
+            <!-- Backtest Section -->
+            <section id="backtest" class="section">
+                <div class="section-header">
+                    <h2 data-en="Strategy Backtesting" data-hi="रणनीति बैकटेस्टिंग">Strategy Backtesting</h2>
+                </div>
+                <div class="backtest-controls card">
+                    <div class="card__body">
+                        <div class="controls-grid">
+                            <div class="form-group">
+                                <label class="form-label" data-en="Strategy" data-hi="रणनीति">Strategy</label>
+                                <select class="form-control">
+                                    <option data-en="Trend Following" data-hi="ट्रेंड फॉलोइंग">Trend Following</option>
+                                    <option data-en="Mean Reversion" data-hi="मीन रिवर्शन">Mean Reversion</option>
+                                    <option data-en="Seasonal Pattern" data-hi="मौसमी पैटर्न">Seasonal Pattern</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-en="From Date" data-hi="शुरुआती तारीख">From Date</label>
+                                <input type="date" class="form-control" value="2024-01-01">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-en="To Date" data-hi="अंतिम तारीख">To Date</label>
+                                <input type="date" class="form-control" value="2025-08-17">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn--primary" data-en="Run Backtest" data-hi="बैकटेस्ट चलाएं">Run Backtest</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="backtest-results" id="backtestResults"></div>
+            </section>
+
+            <!-- Journal Section -->
+            <section id="journal" class="section">
+                <div class="section-header">
+                    <h2 data-en="Trading Journal" data-hi="ट्रेडिंग जर्नल">Trading Journal</h2>
+                    <button class="btn btn--primary" id="addTradeBtn" data-en="Add Trade" data-hi="ट्रेड जोड़ें">Add Trade</button>
+                </div>
+                <div class="journal-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">+₹12,450</div>
+                        <div class="stat-label" data-en="Monthly P&L" data-hi="मासिक P&L">Monthly P&L</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">68%</div>
+                        <div class="stat-label" data-en="Win Rate" data-hi="जीत दर">Win Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1.85</div>
+                        <div class="stat-label" data-en="Profit Factor" data-hi="लाभ कारक">Profit Factor</div>
+                    </div>
+                </div>
+                <div class="journal-table" id="journalTable"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Add Trade Modal -->
+    <div class="modal hidden" id="addTradeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-en="Add New Trade" data-hi="नया ट्रेड जोड़ें">Add New Trade</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addTradeForm">
+                    <div class="form-group">
+                        <label class="form-label" data-en="Date" data-hi="तारीख">Date</label>
+                        <input type="date" class="form-control" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-en="Commodity" data-hi="कमोडिटी">Commodity</label>
+                        <select class="form-control" name="commodity" required>
+                            <option value="">Select Commodity</option>
+                            <option value="GOLD">Gold - सोना</option>
+                            <option value="SILVER">Silver - चांदी</option>
+                            <option value="COPPER">Copper - तांबा</option>
+                            <option value="CHANA">Chana - चना</option>
+                            <option value="WHEAT">Wheat - गेहूं</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" data-en="Entry Price" data-hi="एंट्री प्राइस">Entry Price</label>
+                            <input type="number" class="form-control" name="entry" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Exit Price" data-hi="एक्जिट प्राइस">Exit Price</label>
+                            <input type="number" class="form-control" name="exit" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-en="Quantity" data-hi="मात्रा">Quantity</label>
+                        <input type="number" class="form-control" name="quantity" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-en="Notes" data-hi="टिप्पणी">Notes</label>
+                        <textarea class="form-control" name="notes" rows="3"></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn--secondary" id="cancelTrade" data-en="Cancel" data-hi="रद्द करें">Cancel</button>
+                        <button type="submit" class="btn btn--primary" data-en="Save Trade" data-hi="ट्रेड सेव करें">Save Trade</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weather Impact Widget -->
+    <div class="weather-widget" id="weatherWidget">
+        <div class="weather-info">
+            <div class="weather-status">
+                <span class="weather-icon">🌧️</span>
+                <span class="weather-label" data-en="Monsoon: Normal" data-hi="मानसून: सामान्य">Monsoon: Normal</span>
+            </div>
+            <div class="weather-impact" data-en="Favorable for crops" data-hi="फसलों के लिए अनुकूल">Favorable for crops</div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
